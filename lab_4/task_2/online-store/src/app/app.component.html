@@ -1,3 +1,56 @@
-<main>
-  <app-product-list></app-product-list>
-</main>
+<div class="app-container">
+  <header class="app-header">
+    <h1>Kaspi.kz Premium Store</h1>
+    <p class="app-description">Discover the best products with the best prices</p>
+  </header>
+
+  <div class="main-content">
+    <aside class="categories-sidebar">
+      <h2 class="sidebar-title">Categories</h2>
+      <div class="categories-list">
+        <!-- Важно: вызываем categoriesSignal() чтобы получить массив -->
+        @for (category of categoriesSignal(); track category.id) {
+          <button
+            class="category-btn"
+            [class.active]="selectedCategoryId() === category.id"
+            (click)="selectCategory(category.id)"
+          >
+            <span class="category-icon">{{ category.icon }}</span>
+            <span class="category-name">{{ category.name }}</span>
+            <span class="category-description">{{ category.description }}</span>
+          </button>
+        }
+      </div>
+    </aside>
+
+    <main class="content-area">
+      @if (selectedCategoryId()) {
+        <app-product-list
+          [products]="selectedCategoryProducts()"
+          [categoryName]="selectedCategoryName()"
+          (like)="onLike($event)"
+          (delete)="onDelete($event)"
+        />
+      } @else {
+        <div class="welcome-message">
+          <div class="welcome-icon">🛍️</div>
+          <h2>Welcome to Kaspi.kz Store</h2>
+          <p>Please select a category from the sidebar to start browsing products</p>
+          <div class="category-previews">
+            <!-- Здесь тоже нужно вызвать сигнал -->
+            @for (category of categoriesSignal(); track category.id) {
+              <div class="category-preview" (click)="selectCategory(category.id)">
+                <span class="preview-icon">{{ category.icon }}</span>
+                <span class="preview-name">{{ category.name }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    <p>All products are directly linked to kaspi.kz. Prices and availability are subject to change.</p>
+  </footer>
+</div>

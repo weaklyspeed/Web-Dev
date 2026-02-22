@@ -1,0 +1,50 @@
+<div class="product-card">
+  <div class="product-image-container">
+    <img [src]="product().image" [alt]="product().name" class="product-image">
+    <div class="product-badge">{{product().rating}} ★</div>
+    <button class="delete-btn" (click)="onDelete()" title="Delete product">
+      <span class="delete-icon">🗑️</span>
+    </button>
+  </div>
+  
+  <div class="product-info">
+    <h3 class="product-name">{{product().name}}</h3>
+    <p class="product-description">{{product().description}}</p>
+    
+    <div class="product-rating">
+      <div class="stars-container">
+        @for (star of getStarsArray(); track star) {
+          <span class="star" [style.--fill-percentage]="getStarFillPercentage(star) + '%'">
+            ★
+          </span>
+        }
+      </div>
+      <span class="rating-number">{{product().rating}}</span>
+    </div>
+    
+    <div class="product-price">
+      <span class="price">{{product().price | number}} ₸</span>
+    </div>
+    
+    <div class="product-stats">
+      <div class="likes" (click)="onLike()" [class.liked]="product().likes > 0">
+        <span class="heart-icon">❤️</span>
+        <span class="likes-count">{{product().likes}}</span>
+      </div>
+    </div>
+    
+    <div class="product-actions">
+      <a [href]="product().link" target="_blank" class="btn btn-primary">
+        View Product
+      </a>
+      <div class="share-buttons">
+        <button (click)="shareOnWhatsApp()" class="btn-share whatsapp" title="Share on WhatsApp">
+          <span class="share-icon">📱</span>
+        </button>
+        <button (click)="shareOnTelegram()" class="btn-share telegram" title="Share on Telegram">
+          <span class="share-icon">📨</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
